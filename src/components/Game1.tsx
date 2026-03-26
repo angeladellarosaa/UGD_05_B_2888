@@ -85,7 +85,7 @@ export default function Game1() {
 
                 <div className="game-stats">
                     <div className="score">🏆 Score: {score}</div>
-                    <div className="timer">⏱️ Time: {time}</div>
+                    <div className="timer">⏱ Time: {time}</div>
                 </div>
 
                 <div className="highscore">
