@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense} from 'react';
+import { useState, useEffect} from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import AuthFormWrapper from '../../../components/AuthFormWrapper';
 import SocialAuth from '../../../components/SocialAuth';
