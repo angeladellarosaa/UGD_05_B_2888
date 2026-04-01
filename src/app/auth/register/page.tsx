@@ -30,11 +30,10 @@ const generateCaptcha = () => {
 
 const RegisterPage = () => {
     const router = useRouter();
-    const { register, handleSubmit, watch, formState: { errors }, reset } = useForm<RegisterFormData>({mode: "onSubmit"});
-    const [captcha, setCaptcha] = useState(generateCaptcha());
+    const { register, handleSubmit, watch, formState: { errors,  isSubmitted }, reset } = useForm<RegisterFormData>({mode: "onSubmit"});
+    const [captcha, setCaptcha] = useState(generateCaptcha()); 
     const [showPassword, setshowPassword] = useState(false); 
     const [showConfirm, setshowConfirm] = useState(false);
-    const [isSubmitted, setIsSubmitted] = useState(false);
     const [strength, setStrength] = useState(0); 
     const [confirmStrength, setConfirmStrength] = useState(0); 
 
@@ -65,15 +64,9 @@ const RegisterPage = () => {
     }, [confirmPassword]); 
 
     const onSubmit = (data: RegisterFormData) => {
-        setIsSubmitted(true); 
 
         if (data.password !== data.confirmPassword) {
             toast.error('Konfirmasi password tidak cocok.', { theme: 'dark' });
-            return;
-        }
-
-        if (data.captcha !== captcha) {
-            toast.error('Captcha salah.', { theme: 'dark' });
             return;
         }
 
@@ -105,7 +98,7 @@ const RegisterPage = () => {
                         className={`w-full px-4 py-2.5 rounded-lg border ${errors.username ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="Masukkan username"
                     />
-                    {isSubmitted && errors.username && <p className="text-red-600 text-sm italic mt-1">{errors.username.message}</p>}
+                    {errors.username && <p className="text-red-600 text-sm italic mt-1">{errors.username.message}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -123,7 +116,7 @@ const RegisterPage = () => {
                         className={`w-full px-4 py-2.5 rounded-lg border ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                         placeholder="Masukkan email"
                     />
-                    {isSubmitted && errors.email && <p className="text-red-600 text-sm italic mt-1">{errors.email.message}</p>}
+                    {errors.email && <p className="text-red-600 text-sm italic mt-1">{errors.email.message}</p>}
                 </div>
 
                 <div className="space-y-2">
@@ -147,7 +140,7 @@ const RegisterPage = () => {
                     {errors.nomorTelp && <p className="text-red-600 text-sm italic mt-1">{errors.nomorTelp.message}</p>}
                 </div>
 
-                <div className="space-y-3">
+                <div className="flex flex-col gap-1">
                     <label htmlFor="password" className="text-sm font-medium text-gray-700">Password</label>
                     <div className='relative'>
                         <input
@@ -172,33 +165,35 @@ const RegisterPage = () => {
                         </button>
                     </div>
 
-                    {isSubmitted && errors.password && (
-                        <p className="text-red-600 text-sm italic min-h-[20px]">
-                            {errors.password.message}
-                        </p>
-                    )}
-
                     {password.length > 0 && (
-                        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2 relative"> 
-                            <div
-                                className={`h-1.5 rounded-full transition-all duration-500 ${
-                                    strength <= 25 ? 'bg-red-500' : 
-                                    strength <= 50 ? 'bg-orange-500' : 
-                                    'bg-green-500' 
-                                }`}
-                                style={{ width: `${strength}%`}}
-                            ></div>
+                        <div className="mt-2 block"> 
+                            <div className='w-full bg-gray-200 rounded-full h-1.5 overflow-hidden'>
+                                <div
+                                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                                        strength <= 25 ? 'bg-red-500' : 
+                                        strength <= 50 ? 'bg-orange-500' : 
+                                        'bg-green-500' 
+                                    }`}
+                                    style={{ width: `${strength}%`}}
+                                ></div>
+                            </div>
 
                             <p className="text-sm text-gray-600 mt-1 font-medium">
                                 Strength: <span className="font-bold">{strength}%</span>
                             </p>
                         </div>
                     )}
+
+                    {errors.password && (
+                        <p className="text-red-600 text-sm italic min-h-[20px]">
+                            {errors.password.message}
+                        </p>
+                    )}
                 </div>
 
-                <div className="space-y-3">
-                    <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">Konfirmasi Password</label>
-                    <div className='relative'>
+                <div className="flex flex-col gap-1 mt-4">
+                    <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
+                    <div className='relative mb-3'>
                         <input
                             id="confirmPassword"
                             type={showConfirm ? 'text' : 'password'}
@@ -219,32 +214,30 @@ const RegisterPage = () => {
                     </div>
 
                     {confirmPassword !== "" && (
-                        <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3 relative"> 
-                            <div
-                                className={`h-1.5 rounded-full transition-all duration-500 ${
-                                    confirmStrength <= 25 
-                                        ? 'bg-red-500'
-                                        : confirmStrength <= 50
-                                        ? 'bg-orange-500'
-                                        : 'bg-green-500'
-                                }`}
+                        <div className="mt-1 block">
+                            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-3 relative"> 
+                                <div
+                                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                                        confirmStrength <= 25 
+                                            ? 'bg-red-500'
+                                            : confirmStrength <= 50
+                                            ? 'bg-orange-500'
+                                            : 'bg-green-500'
+                                    }`}
 
-                                style={{
-                                    width: `${confirmStrength}%`
-                                }}
-                            ></div>
-
+                                    style={{
+                                        width: `${confirmStrength}%`
+                                    }}
+                                ></div>
+                            </div>
                             <p className="text-sm text-gray-600 mt-1 font-medium"> 
-                                {confirmPassword !== password
-                                    ? <span className="text-red-500 italic">Password tidak cocok</span>
-                                    : <>Strength: <span className="font-bold">{confirmStrength}%</span></>
-                                }
+                                Strength: <span className="font-bold">{confirmStrength}%</span>
                             </p>
                         </div>
                     )}
 
-                    {isSubmitted && errors.confirmPassword && (
-                        <p className="text-red-600 text-sm italic min-h-[20px]">
+                    {errors.confirmPassword && (
+                        <p className="text-red-600 text-sm italic mt-1">
                             {errors.confirmPassword.message}
                         </p>
                     )}
@@ -267,15 +260,15 @@ const RegisterPage = () => {
                     <input
                         type="text"
                         {...register('captcha', {
-                            required: 'Captcha wajib diisi',
-                            validate: value => value === captcha || 'Harus sesuai dengan captcha yang ditampilkan' 
+                            validate: (value) =>  
+                                value === captcha || 'Harus sesuai dengan captcha yang ditampilkan'
                         })}
                         className={`w-full px-4 py-2.5 rounded-lg border ${
                             errors.captcha ? 'border-red-500' : 'border-gray-300'
                         }`}
                         placeholder="Masukkan captcha"
                     />
-                    {isSubmitted && errors.captcha && (
+                    {errors.captcha && (
                         <p className='text-red-600 text-sm italic mt-1'>
                             {errors.captcha.message}
                         </p>

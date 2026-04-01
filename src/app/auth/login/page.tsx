@@ -34,7 +34,8 @@ const generateCaptcha = () => {
 };
 
 const npm = "241712888";
-const valid_email = `${npm}@gmail.com`;
+const npm_4_digit = "2888";
+const valid_email = `${npm_4_digit}@gmail.com`;
 const valid_password = npm;
 
 // --- Sub-komponen agar Suspense bisa membungkus useSearchParams ---
@@ -77,13 +78,13 @@ const LoginFormContent = () => {
         if (!formData.email.trim()) {
             newErrors.email = 'Email tidak boleh kosong';
         } else if (formData.email !== valid_email) {
-            newErrors.email = 'Email harus sesuai dengan format npm kalian (cth. 1905@gmail.com)'
+            newErrors.email = 'Email harus sesuai dengan format npm kalian (cth. 2888@gmail.com)'
         }
 
         if (!formData.password.trim()) {
             newErrors.password = 'Password tidak boleh kosong';
         } else if (formData.password !== valid_password) {
-            newErrors.password = 'Password harus sesuai dengan format npm kalian (cth. 220711905)'
+            newErrors.password = 'Password harus sesuai dengan format npm kalian (cth. 241712888)'
         }
 
         if (!formData.captchaInput.trim()) {
@@ -99,7 +100,10 @@ const LoginFormContent = () => {
             setLoginAttempts(finalAttempts);
 
             if (finalAttempts === 0) {
-                toast.error('Kesempatan login habis!', { theme: 'dark' });
+                toast.error('Kesempatan login habis!', { 
+                    theme: 'dark', 
+                    position: 'top-right'
+                });
             } else {
                 toast.error(`Login Gagal! Sisa kesempatan: ${finalAttempts}`, {
                     theme: 'dark',
@@ -148,7 +152,7 @@ const LoginFormContent = () => {
                 <form onSubmit={handleSubmit} className="space-y-4 w-full relative pt-4">
                     <div className="text-center mt-2">
                         <p className="text-[15px] font-semibold text-gray-700">
-                            Sisa Kesempatan: <span className={`font-bold ${loginAttempts <= 1 ? 'text-red-500' : 'text-blue-600'}`}>{loginAttempts}</span>
+                            Sisa Kesempatan: <span className={`font-bold ${loginAttempts <= 1 ? 'text-black-500' : 'text-black-600'}`}>{loginAttempts}</span>
                         </p>
                     </div>
 
