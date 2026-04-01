@@ -36,7 +36,7 @@ const npm = "241712888";
 const valid_email = `${npm}@gmail.com`; 
 const valid_password = npm; 
 
-const LoginContent = () => {
+const LoginPage = () => {
     const router = useRouter();
     const searchParams = useSearchParams(); 
     const [captcha, setCaptcha] = useState("");
@@ -272,18 +272,5 @@ const LoginContent = () => {
             </AuthFormWrapper>
         );
     };
-
-const LoginPage = () => { 
-    return (
-        <Suspense fallback={
-            <div className="flex items-center justify-center min-h-screen">
-                <p>Loading...</p>
-            </div>
-        }> 
-            <LoginContent />
-        </Suspense>
-        
-    );
-};
 
 export default LoginPage;
