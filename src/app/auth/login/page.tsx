@@ -275,7 +275,6 @@ const LoginFormContent = () => {
     );
 };
 
-// --- Komponen Utama dengan Suspense ---
 const LoginPage = () => {
     return (
         <Suspense fallback={<div className="flex justify-center items-center h-screen">Loading...</div>}>
