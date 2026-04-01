@@ -10,7 +10,6 @@ import { IoEye, IoEyeOff } from 'react-icons/io5'
 import { FiRefreshCw } from 'react-icons/fi';
 import { HiArrowLeft } from 'react-icons/hi';
 
-// --- Interfaces & Helpers ---
 interface LoginFormData {
     email: string;
     password: string;
@@ -38,7 +37,6 @@ const npm_4_digit = "2888";
 const valid_email = `${npm_4_digit}@gmail.com`;
 const valid_password = npm;
 
-// --- Sub-komponen agar Suspense bisa membungkus useSearchParams ---
 const LoginFormContent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
