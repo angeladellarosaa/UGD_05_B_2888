@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function Game1() {
+    const router = useRouter();
     const holes = Array.from({ length: 9 });
     
     const [moleIndex, setMoleIndex] = useState<number | null>(null);
@@ -12,6 +14,16 @@ export default function Game1() {
     const [time, setTime] = useState<number>(30);
     const [gameActive, setGameActive] = useState<boolean>(false);
     const [highScore, setHighScore] = useState<number>(0);
+    const [isAuthorized, setIsAuthorized] = useState<boolean>(false)
+
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn'); 
+        if (!isLoggedIn) { 
+            router.push('/auth/not-authorized');
+        } else { 
+            setIsAuthorized(true);
+        }
+    }, [router]);
 
     useEffect(() => {
         const savedHighScore = localStorage.getItem("whack_highscore");
@@ -77,6 +89,8 @@ export default function Game1() {
             autoClose: 1500,
         });
     };
+
+    if (!isAuthorized) return null;
 
     return (
         <div className="game-container">
