@@ -31,7 +31,7 @@ const generateCaptcha = () => {
 const RegisterPage = () => {
     const router = useRouter();
     const { register, handleSubmit, watch, formState: { errors,  isSubmitted }, reset } = useForm<RegisterFormData>({mode: "onSubmit"});
-    const [captcha, setCaptcha] = useState(generateCaptcha()); 
+    const [captcha, setCaptcha] = useState(''); 
     const [showPassword, setshowPassword] = useState(false); 
     const [showConfirm, setshowConfirm] = useState(false);
     const [strength, setStrength] = useState(0); 
@@ -62,6 +62,10 @@ const RegisterPage = () => {
         
         setConfirmStrength(currentStrength);
     }, [confirmPassword]); 
+
+    useEffect(() => {
+        setCaptcha(generateCaptcha());
+    }, []);
 
     const onSubmit = (data: RegisterFormData) => {
 
@@ -191,7 +195,7 @@ const RegisterPage = () => {
                     )}
                 </div>
 
-                <div className="flex flex-col gap-1 mt-4">
+                <div className="flex flex-col gap-2 mt-6">
                     <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
                     <div className='relative mb-3'>
                         <input
@@ -237,13 +241,13 @@ const RegisterPage = () => {
                     )}
 
                     {errors.confirmPassword && (
-                        <p className="text-red-600 text-sm italic mt-1">
+                        <p className="text-red-600 text-sm italic mt-1 min-h-[20px]">
                             {errors.confirmPassword.message}
                         </p>
                     )}
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 mt-4">
                     <div className="flex items-center space-x-3">
                         <span className="text-sm font-medium text-gray-700">Captcha:</span>
                         <span className="font-mono text-lg font-bold text-gray-800 bg-gray-100 px-3 py-1.5 rounded">{captcha}</span>
